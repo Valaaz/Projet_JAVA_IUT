@@ -8,7 +8,7 @@ public class Client {
 	public String nom;
 	protected String prenom;
 	
-	ArrayList<Commande> CommandeClient = new ArrayList<Commande>();
+	//ArrayList<Commande> CommandeClient = new ArrayList<Commande>();
 	
 	public Client(String id, String nom, String prenom) {
 		super();
@@ -41,6 +41,7 @@ public class Client {
 		this.prenom = prenom;
 	}
 	
+	/*
 	public void ajouterCommande(Commande c) {
 		CommandeClient.add(c);
 	}
@@ -53,7 +54,8 @@ public class Client {
 		for (int i = 0; i < CommandeClient.size(); i++)
 			System.out.println(CommandeClient.get(i));
 	}
-
+	*/
+	
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", nom=" + nom + ", prenom=" + prenom + "]";

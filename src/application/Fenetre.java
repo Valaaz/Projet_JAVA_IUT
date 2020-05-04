@@ -22,16 +22,11 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JMenu produit = new JMenu("Produit");
 	
 	private JMenuItem voirClient = new JMenuItem("Voir les clients");
-	private JMenuItem ajoutClient = new JMenuItem("Ajouter un client");
 	private JMenuItem quitter = new JMenuItem("Quitter");
 	private JMenuItem voirCommande = new JMenuItem("Voir les commandes");
-	private JMenuItem ajoutCommande = new JMenuItem("Ajouter une commande");
-	private JMenuItem retireCommande = new JMenuItem("Retirer une commande");
 	private JMenuItem ajoutEmprunt = new JMenuItem("Ajouter un emprunt");
 	private JMenuItem retireEmprunt = new JMenuItem("Retirer un emprunt");
 	private JMenuItem voirProduit = new JMenuItem("Voir les produits");
-	private JMenuItem ajoutProduit = new JMenuItem("Ajouter un produit");
-	private JMenuItem retireProduit = new JMenuItem("Retirer un produit");
 	
 	public Fenetre() {
 		
@@ -73,9 +68,6 @@ public class Fenetre extends JFrame implements ActionListener {
 		this.barreMenu.add(produit);		
 		
 		this.client.add(voirClient);
-		this.client.add(ajoutClient);
-		this.client.add(ajoutCommande);
-		this.client.add(retireCommande);
 		client.addSeparator();
 		this.client.add(quitter);
 		
@@ -84,8 +76,6 @@ public class Fenetre extends JFrame implements ActionListener {
 		this.commande.add(retireEmprunt);
 		
 		this.produit.add(voirProduit);
-		this.produit.add(ajoutProduit);
-		this.produit.add(retireProduit);
 		this.setJMenuBar(barreMenu);
 		this.setVisible(true);						
 		
@@ -93,6 +83,7 @@ public class Fenetre extends JFrame implements ActionListener {
 		
 		//Méthode qui initialise le rôle de chaque boutons de la barre de menu
 		private void initBtnMenuBar() {
+			
 			btnVoirClient();
 			btnVoirCommande();
 			btnVoirProduit();

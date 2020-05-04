@@ -4,6 +4,7 @@ public class testProduit {
 
 	public static void main(String[] args) {
 		
+		/*
 		Produit Lab = new Roman("4578", "Labyrinthe", 5, "James Dashner");
 		Produit HG = new ManuelScolaire("6578", "Histoire et Géographie", 3, "Hachette");
 		Produit Dico = new Dictionnaire("1243", "Le Petit Larousse", 7.50, "Français");
@@ -43,7 +44,7 @@ public class testProduit {
 		Val1.setFidelite(Valentin);
 		Val2.setFidelite(Valentin);
 		Valentin.affCommandeClient();
-		
+		*/
 	}
 
 }
