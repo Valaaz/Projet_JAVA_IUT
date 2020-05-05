@@ -15,12 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 import produit.Client;
 
@@ -29,6 +29,7 @@ public class FenetreClient extends JFrame implements ActionListener {
 
 	private static JButton btnAjouterClient = new JButton("Ajouter un client");
 	private static JButton btnRetirerClient = new JButton("Retirer un client");
+	//private static JTable tabClient;
 	
 	public FenetreClient() {
 		
@@ -78,19 +79,43 @@ public class FenetreClient extends JFrame implements ActionListener {
 	      {"RICATTE", "Clément", "Non"},
 	      {"WILLERS", "Alexia", "Non"}
 	    };
-	    */
-		
-		Client val = new Client("764644", "AZANCOTH", "Valentin");
-		
+	    
 	    Object[][] donneeTabClient = {
 	  	      {val.getId(), val.getNom(), val.getPrenom(), "Oui"},
 	  	    };
-	  	    
-	  	String	titleTabClient[] = {"ID", "Nom", "Prénom", "Fidèle"};				//Les titres des colonnes
-	    JTable tabClient = new JTable(donneeTabClient, titleTabClient);		//Instanciation du tableau de données des clients
-	    tabClient.setEnabled(false);
+	    */
+		
+		ArrayList<Client> listeClient = new ArrayList<Client>();
+		Client val = new Client("764644", "AZANCOTH", "Valentin");
+		Client alexia = new Client("567447", "WILLERS", "Alexia");
+		listeClient.add(val);
+		listeClient.add(alexia);
+	    
+	  	String titleTabClient[] = {"ID", "Nom", "Prénom", "Fidèle"};				//Les titres des colonnes
+	    ZModele model = new ZModele(listeClient, titleTabClient);    
+	    JTable tabClient = new JTable(model);
 	    
 	    panelClient.add(new JScrollPane(tabClient));		//Pour pouvoir afficher les titres des colonnes
+	    
+	    
+	    btnRetirerClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				((ZModele)tabClient.getModel()).removeClient(tabClient.getSelectedRow());
+				model.fireTableDataChanged();				//Met à jour le tableau
+				if (listeClient.size() < 0)
+					System.out.println("Erreur");
+		      }
+		});
+	    
+	    /*
+	    btnRetirerClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Client alex = new Client("009877", "FURET", "Alex");
+				((ZModele)tabClient.getModel()).addClient(alex);	//Ajoute un client à la liste
+				model.fireTableDataChanged();				//Met à jour le tableau
+		      }
+		});
+		*/
 	    
 		return panelClient;
 		
@@ -129,6 +154,15 @@ public class FenetreClient extends JFrame implements ActionListener {
 		panelValider.add(btnValider);
 		panelDialogueClient.add(panelValider);
 		
+		/*
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				((ZModele)tabClient.getModel()).addClient(alex);	//Ajoute un client à la liste
+				model.fireTableDataChanged();				//Met à jour le tableau
+		      }
+		});
+		*/
+		
 		return panelDialogueClient;
 	}
 	
@@ -139,5 +173,5 @@ public class FenetreClient extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }
