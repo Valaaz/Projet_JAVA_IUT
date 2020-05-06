@@ -9,10 +9,9 @@ import produit.Client;
 
 @SuppressWarnings("serial")
 public class ZModele extends AbstractTableModel {
-	    //private Object[][] data;
-	    //private String[] title;
+
 		private JTable tabClient;
-		private String[] entetes = {"ID", "Nom", "Prénom"};
+		private String[] entetes;
 	    private ArrayList<Client> listeClient = new ArrayList<Client>();
 
 	    //Constructeur
@@ -25,7 +24,27 @@ public class ZModele extends AbstractTableModel {
 	    public int getColumnCount() {
 	      return entetes.length;
 	    }
-
+	    
+	    /*
+	    public void setColumnName(int i, String name) {
+	        entetes[i] = name;
+	        fireTableStructureChanged();
+	    }
+		*/
+	    
+	    public String getColumnName(int col) {
+	    	  return this.entetes[col];
+	    	}
+	    
+	  //Retourne la classe de la donnée de la colonne
+	    @SuppressWarnings({ "unchecked", "rawtypes" })
+		public Class getColumnClass(int col){
+	      //On retourne le type de la cellule à la colonne demandée
+	      //On se moque de la ligne puisque les types de données sont les mêmes quelle que soit la ligne
+	      //On choisit donc la première ligne
+	      return this.entetes[col].getClass();
+	    }
+	    
 	    //Retourne le nombre de lignes
 	    public int getRowCount() {
 	      return listeClient.size();
@@ -40,6 +59,8 @@ public class ZModele extends AbstractTableModel {
                 return listeClient.get(rowIndex).getNom();
             case 2:
                 return listeClient.get(rowIndex).getPrenom();
+            case 3:
+            	return listeClient.get(rowIndex).getFidele();
             default:
                 return null;
 	    	}    
@@ -49,7 +70,7 @@ public class ZModele extends AbstractTableModel {
 	    public int[] getSelectedRow(){
 	        return tabClient.getSelectedRows();
 	    }
-	     
+	    
 	    //Ajoute une ami à la liste
 	    public void addClient(Client client){
 	        listeClient.add(client);

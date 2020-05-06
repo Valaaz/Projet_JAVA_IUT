@@ -91,9 +91,9 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		JLabel labelClient = new JLabel("Choisissez un client :");
 		panelClient.add(labelClient);
 		
-		Client[] client = new Client[]{};
+		//Client[] client = new Client[]{};
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		JComboBox cboClient = new JComboBox(client);			//Instanciation de la liste déroulante des clients
+		JComboBox cboClient = new JComboBox(FenetreClient.listeClient.toArray());			//Instanciation de la liste déroulante des clients
 		cboClient.setPreferredSize(new Dimension(200, 30));
 		panelClient.add(cboClient);
 		panelDialogueCommande.add(panelClient);

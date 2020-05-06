@@ -1,20 +1,20 @@
 package produit;
 
-import java.util.ArrayList;
-
 public class Client {
 
 	protected String id;
 	public String nom;
 	protected String prenom;
+	protected boolean fidele;
 	
 	//ArrayList<Commande> CommandeClient = new ArrayList<Commande>();
 	
-	public Client(String id, String nom, String prenom) {
+	public Client(String id, String nom, String prenom, boolean fidele) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
+		this.fidele = false;
 	}
 
 	public String getId() {
@@ -39,6 +39,14 @@ public class Client {
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
+	}
+	
+	public boolean getFidele() {
+		return fidele;
+	}
+
+	public void setFidele(boolean fidele) {
+		this.fidele = fidele;
 	}
 	
 	/*

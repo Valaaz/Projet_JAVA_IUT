@@ -4,8 +4,9 @@ public class ClientFidele extends Client {
 
 	public double reduction = 10;
 	
-	public ClientFidele(String id, String nom, String prenom) {
-		super(id, nom, prenom);
+	public ClientFidele(String id, String nom, String prenom, boolean fidele) {
+		super(id, nom, prenom, fidele);
+		this.fidele = true;
 	}
 
 	public double getReduction() {
