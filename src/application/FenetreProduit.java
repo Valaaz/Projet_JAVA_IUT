@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,14 +20,30 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import produit.BD;
 import produit.CD;
-import produit.Client;
+import produit.DVD;
+import produit.Dictionnaire;
+import produit.ManuelScolaire;
 import produit.Produit;
+import produit.Roman;
+import zmodele.ZModeleProduit;
 
+@SuppressWarnings("serial")
 public class FenetreProduit extends JFrame implements ActionListener {
 
 	private static JButton btnAjouterProduit = new JButton("Ajouter un produit");
 	private static JButton btnRetirerProduit = new JButton("Retirer un produit");
+	
+	static ArrayList<Produit> listeProduit = new ArrayList<Produit>();
+	static Produit JW = new DVD(12875, "John Wick", "DVD", 19.99, 3, 2, "Chad Stalhelski");
+	static Produit RC = new CD(78096, "Racine Carrée", "CD", 10, 2, 1, "2016");
+    
+	static String	titleTabProduit[] = {"ID", "Nom", "Catégorie", "Prix", "En stock", "Loué"};	  //Les titres des colonnes
+    static ZModeleProduit modeleProduit = new ZModeleProduit(listeProduit, titleTabProduit);    
+    static JTable tabProduit = new JTable(modeleProduit);
+    
+	static JButton btnValider = new JButton("Valider");	
 	
 	public FenetreProduit() {
 		
@@ -59,25 +74,6 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		gridLeftPanel.add(btnAjouterProduit);							//Ajout des boutons à la gris des boutons
 		gridLeftPanel.add(btnRetirerProduit);
 		leftPanelProduit.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
-		
-		btnAjouterProduit.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un client qui ouvrira
-			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-		        BoiteDialogue dialogBoxProduit = new BoiteDialogue(null, "Ajouter un Produit", false);
-		        dialogBoxProduit.add(buildAjouterProduitDialogue());
-		        dialogBoxProduit.setSize(500, 300);
-		        dialogBoxProduit.setVisible(true);
-		      }
-		});
-		
-		//Les données du tableau
-	    Object[][] donneeTabProduit = {
-	      {"John Wick", "DVD", "19,99€", "3", "2"},
-	      {"Racine Carrée", "CD", "10€", "1", "1"},
-	    };
-	    
-	    String	titleTabProduit[] = {"Nom", "Catégorie", "Prix", "En stock", "Loué"};					    //Les titres des colonnes
-	    JTable tabProduit = new JTable(donneeTabProduit, titleTabProduit);		//Instanciation du tableau de données des clients
-	    tabProduit.setEnabled(false);
 	    
 	    panelProduit.add(new JScrollPane(tabProduit));		//Pour pouvoir afficher les titres des colonnes
 		
@@ -100,18 +96,12 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		JPanel panelCategorie = new JPanel();
 		JLabel labelCategorie = new JLabel("Choisissez une catégorie :");
 		panelCategorie.add(labelCategorie);
-		Object[] categorie = new Object[]{"", "CD", "DVD"};
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		JComboBox cboClient = new JComboBox(categorie);			//Instanciation de la liste déroulante des clients
-		cboClient.setPreferredSize(new Dimension(200, 30));
-		panelCategorie.add(cboClient);
 		
-		JPanel panelAuteur= new JPanel();
-		JLabel labelAuteur = new JLabel("Auteur :");
-		JTextField txtAuteur = new JTextField();
-		txtAuteur.setPreferredSize(new Dimension(150, 30));
-		panelAuteur.add(labelAuteur);
-		panelAuteur.add(txtAuteur);
+		Object[] categorie = new Object[]{"", "CD", "DVD", "Roman", "Dictionnaire", "Manuel Scolaire", "BD"};
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		JComboBox cboProduit = new JComboBox(categorie);		//Instanciation de la liste déroulante des Produits
+		cboProduit.setPreferredSize(new Dimension(200, 30));
+		panelCategorie.add(cboProduit);
 		
 		JPanel panelPrix = new JPanel();
 		JLabel labelPrix = new JLabel("Prix :");
@@ -128,19 +118,119 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		panelQuantite.add(txtQuantite);
 		
 		JPanel panelValider = new JPanel();
-		JButton valider = new JButton("Valider");
-		panelValider.add(valider);
+		panelValider.add(btnValider);
+		
+		JPanel panelChangeable = new JPanel();
+		panelChangeable.setBackground(Color.RED);
+		JLabel labelChangeable = new JLabel();
+		panelChangeable.add(labelChangeable);
+		JTextField txtChangeable = new JTextField();
+		txtChangeable.setPreferredSize(new Dimension(150, 30));
+		panelChangeable.add(txtChangeable);
+		panelChangeable.setEnabled(true);		//On désactive le panel changeable
+		panelChangeable.setVisible(false);		//et on le rend invisible
+		
+		cboProduit.addActionListener(new ActionListener() {		//Méthode pour changer le texte du label
+	        public void actionPerformed(ActionEvent event) {
+	        	
+	        	panelChangeable.setEnabled(false);		//On active le panel changeable
+	    		panelChangeable.setVisible(true);		//et on le rend visible
+	        	
+	        	if(event.getSource() == cboProduit) {
+	        		if(cboProduit.getSelectedItem().equals("CD")) {
+	        			labelChangeable.setText("Année :");
+	        		}
+	        		else if(cboProduit.getSelectedItem().equals("DVD")) {
+	        			labelChangeable.setText("Réalisateur :");
+	        		}
+	        		else if(cboProduit.getSelectedItem().equals("Roman")) {
+	        			labelChangeable.setText("Auteur :");
+	        		}
+	        		else if(cboProduit.getSelectedItem().equals("Dictionnaire")) {
+	        			labelChangeable.setText("Langue :");
+	        		}
+	        		else if(cboProduit.getSelectedItem().equals("Manuel Scolaire")) {
+	        			labelChangeable.setText("Auteur :");
+	        		}
+	        		else if(cboProduit.getSelectedItem().equals("BD")) {
+	        			labelChangeable.setText("Auteur :");
+	        		}
+	        	}
+	        }
+		});
 		
 		panelDialogueProduit.add(panelNom);
 		panelDialogueProduit.add(panelCategorie);
-		panelDialogueProduit.add(panelAuteur);
 		panelDialogueProduit.add(panelPrix);
 		panelDialogueProduit.add(panelQuantite);
+		panelDialogueProduit.add(panelChangeable);
 		panelDialogueProduit.add(panelValider);
+		
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Produit produit = null;
+						/*new CD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+						Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2020");	*/	//parse.. : pour convertir le texte (String) en double ou int
+				
+				if(cboProduit.getSelectedItem().equals("CD"))
+					produit = new CD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+				if(cboProduit.getSelectedItem().equals("DVD"))
+					produit = new DVD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+				if(cboProduit.getSelectedItem().equals("Roman"))
+					produit = new Roman(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+				if(cboProduit.getSelectedItem().equals("Dictionnaire"))
+					produit = new Dictionnaire(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+				if(cboProduit.getSelectedItem().equals("Manuel Scolaire"))
+					produit = new ManuelScolaire(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+				if(cboProduit.getSelectedItem().equals("BD"))
+					produit = new BD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+				
+				((ZModeleProduit)tabProduit.getModel()).addProduit(produit);	//Ajoute un Produit à la liste
+				modeleProduit.fireTableDataChanged();				//Met à jour le tableau
+				btnAjouterProduit.setEnabled(true);
+		      }
+		});
 		
 		return panelDialogueProduit;
 	}
 	
+	public static void btnAjouterProduit() {
+		btnAjouterProduit.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un Produit qui ouvrira
+			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
+				BoiteDialogue dialogBoxProduit = new BoiteDialogue(null, "Ajouter un Produit", false);
+				dialogBoxProduit.add(buildAjouterProduitDialogue());
+				dialogBoxProduit.setSize(500, 300);
+				dialogBoxProduit.setVisible(true);
+				btnAjouterProduit.setEnabled(false);
+			}
+		});
+	}
+	
+	public static void btnRetirerProduit() {
+		btnRetirerProduit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				((ZModeleProduit)tabProduit.getModel()).removeProduit(tabProduit.getSelectedRow());
+				modeleProduit.fireTableDataChanged();				//Met à jour le tableau
+				/*
+				if(listeProduit.size() == 0)				//Si la liste est vide alors le bouton Retirer Produit est désactivé
+					btnRetirerProduit.setEnabled(false);
+					*/
+			}
+		});
+	}
+	
+	private static int nbAleatoire() {
+		int min = 10000, max = 99999;
+		int nbAlea = min + (int)(Math.random() * ((max - min) + 1));
+		return nbAlea;
+	}
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

@@ -4,9 +4,13 @@ public class DVD extends SupportNumerique {
 
 	private String realisateur;
 
-	public DVD(String id, String titre, double tarifJour, String realisateur) {
+	public DVD(int id, String titre, double tarifJour, String realisateur) {
 		super(id, titre, tarifJour);
 		this.realisateur = realisateur;
+	}
+
+	public DVD(int id, String titre, Object categorie, double tarifJour, int stock, int loue, String realisateur) {
+		super(id, titre, categorie, tarifJour, stock, loue);
 	}
 
 	public String getRealisateur() {

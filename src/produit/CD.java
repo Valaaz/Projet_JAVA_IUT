@@ -4,9 +4,17 @@ public class CD extends SupportNumerique {
 
 	private int annee;
 	
-	public CD(String id, String titre, double tarifJour, int annee) {
+	public CD() {
+		super();
+	}
+	
+	public CD(int id, String titre, double tarifJour, int annee) {
 		super(id, titre, tarifJour);
 		this.annee = annee;
+	}
+	
+	public CD(int id, String titre, Object categorie, double tarifJour, int stock, int loue, String annee) {
+		super(id, titre, categorie, tarifJour, stock, loue);
 	}
 
 	public int getAnnee() {

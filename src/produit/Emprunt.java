@@ -2,12 +2,13 @@ package produit;
 
 public class Emprunt {
 
-	private String dateDebut = Commande.getDateCreation();
+	private String dateDebut;
 	private String dateFin;
 	private Produit p;
 
-	public Emprunt(String dateFin, Produit p) {
+	public Emprunt(String dateDebut, String dateFin, Produit p) {
 		super();
+		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.p = p;
 	}
@@ -16,10 +17,14 @@ public class Emprunt {
 		return dateDebut;
 	}
 
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+	
 	public String getDateFin() {
 		return dateFin;
 	}
-
+	
 	public void setDateFin(String dateFin) {
 		this.dateFin = dateFin;
 	}

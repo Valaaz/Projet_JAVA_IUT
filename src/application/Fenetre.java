@@ -1,15 +1,9 @@
 package application;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,6 +27,18 @@ public class Fenetre extends JFrame implements ActionListener {
 		super();
 		buildWindow();				//Appelle des fonctions pour construire l'application
 		buildBarMenu();
+		FenetreClient.listeClient.add(FenetreClient.val);
+		FenetreClient.listeClient.add(FenetreClient.alexia);
+		FenetreCommande.listeCommande.add(FenetreCommande.commandeVal);
+		FenetreCommande.listeCommande.add(FenetreCommande.commandeAlexia);
+		FenetreProduit.listeProduit.add(FenetreProduit.JW);
+		FenetreProduit.listeProduit.add(FenetreProduit.RC);
+		FenetreClient.btnAjouterClient();
+	    FenetreClient.btnRetirerClient();
+	    FenetreCommande.btnAjouterCommande();
+		FenetreCommande.btnRetirerCommande();
+		FenetreProduit.btnAjouterProduit();
+		FenetreProduit.btnRetirerProduit();
 	}
 		
 		private void buildWindow() {
@@ -124,7 +130,7 @@ public class Fenetre extends JFrame implements ActionListener {
 		private void btnQuitter() {
 			quitter.addActionListener(new ActionListener(){
 			      public void actionPerformed(ActionEvent event){
-			        System.exit(0);
+			        System.exit(0);			//C'est pour dire au programme de se fermer
 			      }
 			    });
 			}

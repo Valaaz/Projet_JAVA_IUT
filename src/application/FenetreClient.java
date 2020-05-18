@@ -20,9 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
 import produit.Client;
+import produit.ClientFidele;
+import zmodele.ZModeleClient;
 
 @SuppressWarnings("serial")
 public class FenetreClient extends JFrame implements ActionListener {
@@ -31,12 +32,13 @@ public class FenetreClient extends JFrame implements ActionListener {
 	private static JButton btnRetirerClient = new JButton("Retirer un client");
 	
 	static ArrayList<Client> listeClient = new ArrayList<Client>();
-	static Client val = new Client("ID", "AZANCOTH", "Valentin", true);
-	static Client alexia = new Client("ID", "WILLERS", "Alexia", false);
+	static ArrayList<Client> nomClient = new ArrayList<Client>();
+	static Client val = new Client(168616, "AZANCOTH", "Valentin", true);
+	static Client alexia = new Client(171871, "WILLERS", "Alexia", false);
     
   	static String titleTabClient[] = {"ID", "Nom", "Prénom", "Fidèle"};				//Les titres des colonnes
-    static ZModele model = new ZModele(listeClient, titleTabClient);    
-    static JTable tabClient = new JTable(model);
+    static ZModeleClient modeleClient = new ZModeleClient(listeClient, titleTabClient);    
+    static JTable tabClient = new JTable(modeleClient);
     
 	static JButton btnValider = new JButton("Valider");
 	
@@ -70,37 +72,8 @@ public class FenetreClient extends JFrame implements ActionListener {
 		gridLeftPanel.add(btnAjouterClient);							//Ajout des boutons à la gris des boutons
 		gridLeftPanel.add(btnRetirerClient);
 		leftPanelClient.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
-		
-		btnAjouterClient.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un client qui ouvrira
-			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-		        BoiteDialogue dialogBoxClient = new BoiteDialogue(null, "Ajouter un client", false);
-		        dialogBoxClient.add(buildAjouterClientDialogue());
-		        dialogBoxClient.setSize(300, 200);
-		        dialogBoxClient.setVisible(true);
-		      }
-		});
-		
-		listeClient.add(val);
-		listeClient.add(alexia);
 	    
 	    panelClient.add(new JScrollPane(tabClient));		//Pour pouvoir afficher les titres des colonnes
-	    
-	    
-	    btnRetirerClient.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				((ZModele)tabClient.getModel()).removeClient(tabClient.getSelectedRow());
-				model.fireTableDataChanged();				//Met à jour le tableau
-		      }
-		});
-	    
-	    /*
-	    btnRetirerClient.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				((ZModele)tabClient.getModel()).removeClient(tabClient.getSelectedRow());
-				model.fireTableDataChanged();				//Met à jour le tableau
-		      }
-		});
-		*/
 	    
 		return panelClient;
 		
@@ -140,15 +113,28 @@ public class FenetreClient extends JFrame implements ActionListener {
 		
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Client client = new Client("ID", txtNom.getText(), txtPrenom.getText(), false);
-				((ZModele)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
+				Client client = new Client(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), false);
 				if(fidele.isSelected())		//Vérifie si la checkbox est cochée
-					client.setFidele(true);	//Si vraie alors le client est fidèle
-				model.fireTableDataChanged();				//Met à jour le tableau
+					client = new ClientFidele(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), true);
+				((ZModeleClient)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
+				modeleClient.fireTableDataChanged();				//Met à jour le tableau
+				btnAjouterClient.setEnabled(true);
 		      }
 		});
 		
 		return panelDialogueClient;
+	}
+	
+	public static void btnAjouterClient() {
+		btnAjouterClient.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un client qui ouvrira
+			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
+				BoiteDialogue dialogBoxClient = new BoiteDialogue(null, "Ajouter un client", false);
+				dialogBoxClient.add(buildAjouterClientDialogue());
+				dialogBoxClient.setSize(300, 200);
+				dialogBoxClient.setVisible(true);
+				btnAjouterClient.setEnabled(false);
+			}
+		});
 	}
 	
 	/*
@@ -163,6 +149,25 @@ public class FenetreClient extends JFrame implements ActionListener {
 	}
 	*/
 	
+	public static void btnRetirerClient() {
+		btnRetirerClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				((ZModeleClient)tabClient.getModel()).removeClient(tabClient.getSelectedRow());
+				modeleClient.fireTableDataChanged();				//Met à jour le tableau
+				/*
+				if(listeClient.size() == 0)				//Si la liste est vide alors le bouton Retirer Client est désactivé
+					btnRetirerClient.setEnabled(false);
+					*/
+			}
+		});
+	}
+	
+	private static int nbAleatoire() {
+		int min = 100000, max = 999999;
+		int nbAlea = min + (int)(Math.random() * ((max - min) + 1));
+		return nbAlea;
+	}
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

@@ -2,14 +2,14 @@ package produit;
 
 public class Client {
 
-	protected String id;
+	protected int id;
 	public String nom;
 	protected String prenom;
 	protected boolean fidele;
 	
 	//ArrayList<Commande> CommandeClient = new ArrayList<Commande>();
 	
-	public Client(String id, String nom, String prenom, boolean fidele) {
+	public Client(int id, String nom, String prenom, boolean fidele) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -17,11 +17,11 @@ public class Client {
 		this.fidele = false;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

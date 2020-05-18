@@ -4,9 +4,13 @@ public abstract class Livre extends Document {
 
 	protected String auteur;
 
-	public Livre(String id, String titre, double tarifJour, String auteur) {
+	public Livre(int id, String titre, double tarifJour, String auteur) {
 		super(id, titre, tarifJour);
 		this.auteur = auteur;
+	}
+	
+	public Livre(int id, String titre, Object categorie, double tarifJour, int stock, int loue) {
+		super(id, titre, categorie, tarifJour, stock, loue);
 	}
 
 	public String getAuteur() {

@@ -4,14 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,12 +20,26 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import produit.Client;
+import produit.Commande;
+import produit.Emprunt;
+import zmodele.ZModeleCommande;
 
 @SuppressWarnings("serial")
 public class FenetreCommande extends JFrame implements ActionListener {
 
 	private static JButton btnAjouterCommande = new JButton("Ajouter une commande");
+	private static JButton btnRetirerCommande = new JButton("Retirer une commande");
+	
+	static ArrayList<Emprunt> listeEmprunt = new ArrayList<Emprunt>();
+	static ArrayList<Commande> listeCommande = new ArrayList<Commande>();
+	static Commande commandeVal = new Commande(251164741, FenetreClient.val.getNom().concat(" " + FenetreClient.val.getPrenom()), "25/04/2020", "30/04/2020", 14.06);
+	static Commande commandeAlexia = new Commande(124434414, FenetreClient.alexia.getNom().concat(" " + FenetreClient.alexia.getPrenom()), "14/05/2020", "26/06/2020", 40.67);
+    
+  	static String	titleTabCommande[] = {"ID", "Client", "Date de création", "Date de fin", "Montant"};		//Les titres des colonnes
+    static ZModeleCommande modeleCommande = new ZModeleCommande(listeCommande, titleTabCommande);    
+    static JTable tabCommande = new JTable(modeleCommande);
+    
+	static JButton btnValider = new JButton("Valider");
 	
 	public FenetreCommande() {
 		
@@ -55,28 +68,10 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		gridLeftPanel.setLayout(new GridLayout(2, 1, 0, 10));		//Définition de la gestion des placements des boutons
 		
 		gridLeftPanel.add(btnAjouterCommande);							//Ajout des boutons à la gris des boutons
+		gridLeftPanel.add(btnRetirerCommande);
 		leftPanelCommande.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
 		
-		btnAjouterCommande.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un client qui ouvrira
-			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-		        BoiteDialogue dialogBoxCommande = new BoiteDialogue(null, "Ajouter un Commande", false);
-		        dialogBoxCommande.add(buildAjouterCommandeDialogue());
-		        dialogBoxCommande.setSize(500, 200);
-		        dialogBoxCommande.setVisible(true);
-		      }
-		});
-		
-		//Les données du tableau
-	    Object[][] donneeTabCommande = {
-	      {"251164741", "Valentin AZANCOTH", "25/04/2020", "30/04/2020", "14,06€"},
-	      {"124434414", "Alexandre FURET", "14/05/2020", "26/06/2020", "40,67€"},
-	    };
-	    
-	    String	titleTabCommande[] = {"ID", "Client", "Date de création", "Date de fin", "Montant"};					    //Les titres des colonnes
-	    JTable tabCommande = new JTable(donneeTabCommande, titleTabCommande);		//Instanciation du tableau de données des clients
-	    tabCommande.setEnabled(false);
-	    
-	    panelCommande.add(new JScrollPane(tabCommande));		//Pour pouvoir afficher les titres des colonnes
+		panelCommande.add(new JScrollPane(tabCommande));		//Pour pouvoir afficher les titres des colonnes
 		
 		return panelCommande;
 		
@@ -90,7 +85,7 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		JPanel panelClient = new JPanel();
 		JLabel labelClient = new JLabel("Choisissez un client :");
 		panelClient.add(labelClient);
-		
+
 		//Client[] client = new Client[]{};
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox cboClient = new JComboBox(FenetreClient.listeClient.toArray());			//Instanciation de la liste déroulante des clients
@@ -113,17 +108,55 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		panelDateFin.add(txtDateFin);
 		
 		JPanel panelValider = new JPanel();
-		JButton valider = new JButton("Valider");
-		panelValider.add(valider);
+		panelValider.add(btnValider);
 		
 		panelDialogueCommande.add(panelClient);
 		panelDialogueCommande.add(panelDateCreation);
 		panelDialogueCommande.add(panelDateFin);
 		panelDialogueCommande.add(panelValider);
 		
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Commande commande = new Commande(nbAleatoire(), "test", txtDateCreation.getText(), txtDateFin.getText(), 0);
+				((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute un client à la liste
+				modeleCommande.fireTableDataChanged();				//Met à jour le tableau
+				btnAjouterCommande.setEnabled(true);
+		      }
+		});
+		
 		return panelDialogueCommande;
 	}
 	
+	public static void btnAjouterCommande() {
+		btnAjouterCommande.addActionListener(new ActionListener() {				//Méthode du bouton ajouter une commande qui ouvrira
+			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
+		        BoiteDialogue dialogBoxCommande = new BoiteDialogue(null, "Ajouter une commande", false);
+		        dialogBoxCommande.add(buildAjouterCommandeDialogue());
+		        dialogBoxCommande.setSize(500, 200);
+		        dialogBoxCommande.setVisible(true);
+		      }
+		});
+	}
+	
+	public static void btnRetirerCommande() {
+		btnRetirerCommande.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				((ZModeleCommande)tabCommande.getModel()).removeCommande(tabCommande.getSelectedRow());
+				modeleCommande.fireTableDataChanged();				//Met à jour le tableau
+				/*
+				if(listeCommande.size() == 0)				//Si la liste est vide alors le bouton Retirer Commande est désactivé
+					btnRetirerCommande.setEnabled(false);
+					*/
+			}
+		});
+	}
+	
+	private static int nbAleatoire() {
+		int min = 100000000, max = 999999999;
+		int nbAlea = min + (int)(Math.random() * ((max - min) + 1));
+		return nbAlea;
+	}
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
