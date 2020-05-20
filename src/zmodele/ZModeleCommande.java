@@ -35,7 +35,6 @@ public class ZModeleCommande extends AbstractTableModel {
 	    }
 
 	    //Retourne la valeur à l'emplacement spécifié
-	    @SuppressWarnings("static-access")
 		public Object getValueAt(int rowIndex, int colIndex) {
 	    	switch(colIndex){
             case 0:

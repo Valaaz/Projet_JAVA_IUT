@@ -32,8 +32,8 @@ import zmodele.ZModeleProduit;
 @SuppressWarnings("serial")
 public class FenetreProduit extends JFrame implements ActionListener {
 
-	private static JButton btnAjouterProduit = new JButton("Ajouter un produit");
-	private static JButton btnRetirerProduit = new JButton("Retirer un produit");
+	static JButton btnAjouterProduit = new JButton("Ajouter un produit");
+	static JButton btnRetirerProduit = new JButton("Retirer un produit");
 	
 	static ArrayList<Produit> listeProduit = new ArrayList<Produit>();
 	static Produit JW = new DVD(12875, "John Wick", "DVD", 19.99, 3, 2, "Chad Stalhelski");
@@ -192,8 +192,8 @@ public class FenetreProduit extends JFrame implements ActionListener {
 							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
 				
 				((ZModeleProduit)tabProduit.getModel()).addProduit(produit);	//Ajoute un Produit à la liste
+				Fenetre.checkBtn();
 				modeleProduit.fireTableDataChanged();				//Met à jour le tableau
-				btnAjouterProduit.setEnabled(true);
 		      }
 		});
 		
@@ -207,7 +207,6 @@ public class FenetreProduit extends JFrame implements ActionListener {
 				dialogBoxProduit.add(buildAjouterProduitDialogue());
 				dialogBoxProduit.setSize(500, 300);
 				dialogBoxProduit.setVisible(true);
-				btnAjouterProduit.setEnabled(false);
 			}
 		});
 	}
@@ -216,11 +215,8 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		btnRetirerProduit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				((ZModeleProduit)tabProduit.getModel()).removeProduit(tabProduit.getSelectedRow());
+				Fenetre.checkBtn();
 				modeleProduit.fireTableDataChanged();				//Met à jour le tableau
-				/*
-				if(listeProduit.size() == 0)				//Si la liste est vide alors le bouton Retirer Produit est désactivé
-					btnRetirerProduit.setEnabled(false);
-					*/
 			}
 		});
 	}

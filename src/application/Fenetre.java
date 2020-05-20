@@ -33,6 +33,8 @@ public class Fenetre extends JFrame implements ActionListener {
 		FenetreCommande.listeCommande.add(FenetreCommande.commandeAlexia);
 		FenetreProduit.listeProduit.add(FenetreProduit.JW);
 		FenetreProduit.listeProduit.add(FenetreProduit.RC);
+		FenetreCommande.listeEmprunt.add(FenetreCommande.empruntVal);
+		FenetreCommande.listeEmprunt.add(FenetreCommande.empruntVal1);
 		FenetreClient.btnAjouterClient();
 	    FenetreClient.btnRetirerClient();
 	    FenetreCommande.btnAjouterCommande();
@@ -134,6 +136,33 @@ public class Fenetre extends JFrame implements ActionListener {
 			      }
 			    });
 			}
+		
+		public static void checkBtn() {
+			if(FenetreClient.listeClient.size() == 0)
+				FenetreClient.btnRetirerClient.setEnabled(false);
+			else
+				FenetreClient.btnRetirerClient.setEnabled(true);
+			
+			if(FenetreCommande.listeEmprunt.size() == 0)
+				FenetreCommande.btnRetirerEmprunt.setEnabled(false);
+			else
+				FenetreCommande.btnRetirerEmprunt.setEnabled(true);
+			
+			if(FenetreCommande.listeCommande.size() == 0)
+				FenetreCommande.btnRetirerCommande.setEnabled(false);
+			else
+				FenetreCommande.btnRetirerCommande.setEnabled(true);
+			
+			if(FenetreProduit.listeProduit.size() == 0)
+				FenetreProduit.btnRetirerProduit.setEnabled(false);
+			else
+				FenetreProduit.btnRetirerProduit.setEnabled(true);
+			
+			FenetreClient.modeleClient.fireTableDataChanged();
+			FenetreCommande.modeleCommande.fireTableDataChanged();
+			FenetreCommande.modeleEmprunt.fireTableDataChanged();
+			FenetreProduit.modeleProduit.fireTableDataChanged();
+		}
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {

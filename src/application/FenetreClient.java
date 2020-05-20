@@ -28,8 +28,8 @@ import zmodele.ZModeleClient;
 @SuppressWarnings("serial")
 public class FenetreClient extends JFrame implements ActionListener {
 
-	private static JButton btnAjouterClient = new JButton("Ajouter un client");
-	private static JButton btnRetirerClient = new JButton("Retirer un client");
+	static JButton btnAjouterClient = new JButton("Ajouter un client");
+	static JButton btnRetirerClient = new JButton("Retirer un client");
 	
 	static ArrayList<Client> listeClient = new ArrayList<Client>();
 	static ArrayList<Client> nomClient = new ArrayList<Client>();
@@ -74,7 +74,7 @@ public class FenetreClient extends JFrame implements ActionListener {
 		leftPanelClient.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
 	    
 	    panelClient.add(new JScrollPane(tabClient));		//Pour pouvoir afficher les titres des colonnes
-	    
+	    	    
 		return panelClient;
 		
 	}
@@ -117,8 +117,8 @@ public class FenetreClient extends JFrame implements ActionListener {
 				if(fidele.isSelected())		//Vérifie si la checkbox est cochée
 					client = new ClientFidele(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), true);
 				((ZModeleClient)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
+				Fenetre.checkBtn();
 				modeleClient.fireTableDataChanged();				//Met à jour le tableau
-				btnAjouterClient.setEnabled(true);
 		      }
 		});
 		
@@ -132,32 +132,16 @@ public class FenetreClient extends JFrame implements ActionListener {
 				dialogBoxClient.add(buildAjouterClientDialogue());
 				dialogBoxClient.setSize(300, 200);
 				dialogBoxClient.setVisible(true);
-				btnAjouterClient.setEnabled(false);
 			}
 		});
 	}
-	
-	/*
-	private static void btnValider() {
-		btnValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Client alex = new Client("009877", "FURET", "Alex");
-				((ZModele)tabClient.getModel()).addClient(alex);	//Ajoute un client à la liste
-				model.fireTableDataChanged();				//Met à jour le tableau
-		      }
-		});
-	}
-	*/
 	
 	public static void btnRetirerClient() {
 		btnRetirerClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				((ZModeleClient)tabClient.getModel()).removeClient(tabClient.getSelectedRow());
+				Fenetre.checkBtn();
 				modeleClient.fireTableDataChanged();				//Met à jour le tableau
-				/*
-				if(listeClient.size() == 0)				//Si la liste est vide alors le bouton Retirer Client est désactivé
-					btnRetirerClient.setEnabled(false);
-					*/
 			}
 		});
 	}
