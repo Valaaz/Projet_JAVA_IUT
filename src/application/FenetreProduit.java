@@ -76,7 +76,7 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		leftPanelProduit.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
 	    
 	    panelProduit.add(new JScrollPane(tabProduit));		//Pour pouvoir afficher les titres des colonnes
-		
+	    
 		return panelProduit;
 		
 	}
@@ -121,7 +121,6 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		panelValider.add(btnValider);
 		
 		JPanel panelChangeable = new JPanel();
-		panelChangeable.setBackground(Color.RED);
 		JLabel labelChangeable = new JLabel();
 		panelChangeable.add(labelChangeable);
 		JTextField txtChangeable = new JTextField();
@@ -220,6 +219,19 @@ public class FenetreProduit extends JFrame implements ActionListener {
 			}
 		});
 	}
+	
+	/*
+	public static void checkLoue() {
+		int res = 0;
+		if(FenetreCommande.btnAjouterEmprunt.isSelected())
+			for(int i = 0; i < listeProduit.size(); i++)
+				if(listeProduit.get(i).getTitre().equals(FenetreCommande.listeEmprunt.get(i).getProduit())) {
+					res = listeProduit.get(i).getStock() - 1;
+					listeProduit.get(i).setStock(res);
+				}					
+		modeleProduit.fireTableDataChanged();
+	}
+	*/
 	
 	private static int nbAleatoire() {
 		int min = 10000, max = 99999;

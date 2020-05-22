@@ -57,12 +57,12 @@ public class ZModeleCommande extends AbstractTableModel {
 	        return tabCommande.getSelectedRows();
 	    }
 	    
-	    //Ajoute une ami à la liste
+	    //Ajoute un commande à la liste
 	    public void addCommande(Commande Commande){
 	        listeCommande.add(Commande);
 	    }
 	     
-	    //Supprime un ami de la liste
+	    //Supprime un commande de la liste
 	    public void removeCommande(int rowIndex){
 	        listeCommande.remove(rowIndex);
 	    }

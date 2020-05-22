@@ -59,12 +59,12 @@ public class ZModeleProduit extends AbstractTableModel {
 	        return tabProduit.getSelectedRows();
 	    }
 	    
-	    //Ajoute une ami à la liste
+	    //Ajoute un produit à la liste
 	    public void addProduit(Produit Produit){
 	        listeProduit.add(Produit);
 	    }
 	     
-	    //Supprime un ami de la liste
+	    //Supprime un produit de la liste
 	    public void removeProduit(int rowIndex){
 	        listeProduit.remove(rowIndex);
 	    }

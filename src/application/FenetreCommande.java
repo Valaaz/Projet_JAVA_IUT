@@ -51,7 +51,10 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	static JButton btnValiderCommande = new JButton("Valider");
 	static JButton btnValiderEmprunt = new JButton("Valider");
 	
+	static JButton btnAjouterEmprunt = new JButton("Ajouter un emprunt");
 	static JButton btnRetirerEmprunt = new JButton("Retirer un emprunt");
+	
+	static JTextField txtDateFin = new JTextField();
 	
 	public FenetreCommande() {
 		
@@ -99,10 +102,12 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		JPanel panelClient = new JPanel();
 		JLabel labelClient = new JLabel("Choisissez un client :");
 		panelClient.add(labelClient);
-
-		//Client[] client = new Client[]{};
+		
+		ArrayList<String> listeNom = new ArrayList<String>();		//ArrayList pour stocker les noms et prénoms des clients
+		for(int i = 0; i < FenetreClient.listeClient.size(); i++)		//Boucle qui permet de récupérer les noms et prénoms des clients
+			listeNom.add(FenetreClient.listeClient.get(i).getNom().concat(" " + FenetreClient.listeClient.get(i).getPrenom()));
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		JComboBox cboClient = new JComboBox(FenetreClient.listeClient.toArray());			//Instanciation de la liste déroulante des clients
+		JComboBox cboClient = new JComboBox(listeNom.toArray());			//Instanciation de la liste déroulante des clients
 		cboClient.setPreferredSize(new Dimension(200, 30));
 		panelClient.add(cboClient);
 		panelDialogueCommande.add(panelClient);
@@ -131,7 +136,7 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		
 		btnValiderCommande.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Commande commande = new Commande(nbAleatoire(), "test", txtDateCreation.getText(), txtDateFin.getText(), montant());
+				Commande commande = new Commande(nbAleatoire(), (String)cboClient.getSelectedItem(), txtDateCreation.getText(), txtDateFin.getText(), montant());
 				((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute un client à la liste
 				Fenetre.checkBtn();
 				modeleCommande.fireTableDataChanged();				//Met à jour le tableau
@@ -144,43 +149,54 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	private static Component buildAjouterEmpruntDialogue() {
 		
 		JPanel panelDialogueEmprunt = new JPanel();
-		panelDialogueEmprunt.setBackground(Color.RED);
 		panelDialogueEmprunt.setLayout(new BoxLayout(panelDialogueEmprunt, BoxLayout.Y_AXIS));
+		panelDialogueEmprunt.setBackground(Color.DARK_GRAY);
 		
 		JPanel panelEmprunt = new JPanel();
-		
+		panelEmprunt.setBackground(Color.DARK_GRAY);
 		panelEmprunt.add(new JScrollPane(tabEmprunt));
-		panelEmprunt.setBackground(Color.GREEN);
 		
 		JPanel valider = new JPanel();
-		valider.setBackground(Color.CYAN);
+		valider.setBackground(Color.DARK_GRAY);
 		valider.add(btnValiderEmprunt);
 
+		ArrayList<String> listeTitre = new ArrayList<String>();
+		for(int i = 0; i < FenetreProduit.listeProduit.size(); i++)		//Boucle qui permet de récupérer les noms des produits
+			listeTitre.add(FenetreProduit.listeProduit.get(i).getTitre());
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		JComboBox cboEmprunt = new JComboBox(FenetreProduit.listeProduit.toArray());			//Instanciation de la liste déroulante des clients
+		JComboBox cboEmprunt = new JComboBox(listeTitre.toArray());	//Instanciation de la liste déroulante des produits
 		cboEmprunt.setPreferredSize(new Dimension(200, 30));
-		JButton btnAjouterEmprunt = new JButton("Ajouter un emprunt");
+		
 		JPanel ajoutEmprunt = new JPanel();
-		ajoutEmprunt.setBackground(Color.MAGENTA);
+		ajoutEmprunt.setBackground(Color.DARK_GRAY);
 		ajoutEmprunt.add(btnAjouterEmprunt);
 		ajoutEmprunt.add(cboEmprunt);
 		
+		JPanel panelDateFin = new JPanel();
+		panelDateFin.setBackground(Color.DARK_GRAY);
+		JLabel labelDateFin = new JLabel("Rentrez la date de fin :");
+		labelDateFin.setForeground(Color.WHITE);
+		panelDateFin.add(labelDateFin);
+		txtDateFin.setPreferredSize(new Dimension(150, 30));
+		panelDateFin.add(txtDateFin);
 		
 		JPanel retirerEmprunt = new JPanel();
-		ajoutEmprunt.setBackground(Color.PINK);
+		retirerEmprunt.setBackground(Color.DARK_GRAY);
 		retirerEmprunt.add(btnRetirerEmprunt);
 		
 		panelDialogueEmprunt.add(panelEmprunt);
+		panelDialogueEmprunt.add(panelDateFin);
 		panelDialogueEmprunt.add(ajoutEmprunt);
 		panelDialogueEmprunt.add(retirerEmprunt);
 		panelDialogueEmprunt.add(valider);		
 		
 		btnAjouterEmprunt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Emprunt emprunt = new Emprunt("testd1", "testd2", "testp", 20.0);
+				Emprunt emprunt = new Emprunt("testd1", txtDateFin.getText(), (String)cboEmprunt.getSelectedItem(), listeEmprunt.get(cboEmprunt.getSelectedIndex()).getPrix());
 				((ZModeleEmprunt)tabEmprunt.getModel()).addEmprunt(emprunt);	//Ajoute un client à la liste
 				Fenetre.checkBtn();
 				modeleEmprunt.fireTableDataChanged();
+				
 			}
 		});
 		
@@ -238,13 +254,11 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	}
 	
 	private static double montant() {
-		
-		double montant = 5;
+		double montant = 0;
 		for(int i = 0; i < listeEmprunt.size(); i++) {
 			montant = montant + listeEmprunt.get(i).getPrix();
 		}
 		return montant;
-		
 	}
 	
 	private static int nbAleatoire() {

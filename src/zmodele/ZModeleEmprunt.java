@@ -56,12 +56,12 @@ public class ZModeleEmprunt extends AbstractTableModel {
 	        return tabEmprunt.getSelectedRows();
 	    }
 	    
-	    //Ajoute une ami à la liste
+	    //Ajoute un emprunt à la liste
 	    public void addEmprunt(Emprunt Emprunt){
 	        listeEmprunt.add(Emprunt);
 	    }
 	     
-	    //Supprime un ami de la liste
+	    //Supprime un emprunt de la liste
 	    public void removeEmprunt(int rowIndex){
 	        listeEmprunt.remove(rowIndex);
 	    }

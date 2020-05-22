@@ -62,12 +62,12 @@ public class ZModeleClient extends AbstractTableModel {
 	        return tabClient.getSelectedRows();
 	    }
 	    
-	    //Ajoute une ami à la liste
+	    //Ajoute un client à la liste
 	    public void addClient(Client client){
 	        listeClient.add(client);
 	    }
 	     
-	    //Supprime un ami de la liste
+	    //Supprime un client de la liste
 	    public void removeClient(int rowIndex){
 	        listeClient.remove(rowIndex);
 	    }

@@ -18,8 +18,6 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JMenuItem voirClient = new JMenuItem("Voir les clients");
 	private JMenuItem quitter = new JMenuItem("Quitter");
 	private JMenuItem voirCommande = new JMenuItem("Voir les commandes");
-	private JMenuItem ajoutEmprunt = new JMenuItem("Ajouter un emprunt");
-	private JMenuItem retireEmprunt = new JMenuItem("Retirer un emprunt");
 	private JMenuItem voirProduit = new JMenuItem("Voir les produits");
 	
 	public Fenetre() {
@@ -80,8 +78,6 @@ public class Fenetre extends JFrame implements ActionListener {
 		this.client.add(quitter);
 		
 		this.commande.add(voirCommande);
-		this.commande.add(ajoutEmprunt);
-		this.commande.add(retireEmprunt);
 		
 		this.produit.add(voirProduit);
 		this.setJMenuBar(barreMenu);
