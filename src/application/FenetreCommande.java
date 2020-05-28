@@ -34,15 +34,19 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	static JButton btnRetirerCommande = new JButton("Retirer une commande");
 	
 	static ArrayList<Emprunt> listeEmprunt = new ArrayList<Emprunt>();
+	
+	//static ArrayList<Emprunt> listeEmpruntVal = new ArrayList<Emprunt>();
+	//static ArrayList<Emprunt> listeEmpruntAlexia = new ArrayList<Emprunt>();
+	
 	static ArrayList<Commande> listeCommande = new ArrayList<Commande>();
 	static Commande commandeVal = new Commande(251164741, FenetreClient.val.getNom().concat(" " + FenetreClient.val.getPrenom()), "25/04/2020", "30/04/2020", montant());
 	static Commande commandeAlexia = new Commande(124434414, FenetreClient.alexia.getNom().concat(" " + FenetreClient.alexia.getPrenom()), "14/05/2020", "26/06/2020", 40.67);
     static Emprunt empruntVal = new Emprunt("2020", "2021", FenetreProduit.JW.getTitre(), FenetreProduit.JW.getTarifJour());
-    static Emprunt empruntVal1 = new Emprunt("2020", "2021", FenetreProduit.RC.getTitre(), FenetreProduit.RC.getTarifJour());
+    static Emprunt empruntAlexia = new Emprunt("2020", "2021", FenetreProduit.RC.getTitre(), FenetreProduit.RC.getTarifJour());
 	
   	static String	titleTabCommande[] = {"ID", "Client", "Date de création", "Date de fin", "Montant"};		//Les titres des colonnes
     static ZModeleCommande modeleCommande = new ZModeleCommande(listeCommande, titleTabCommande);    
-    static JTable tabCommande = new JTable(modeleCommande);
+  	static JTable tabCommande = new JTable(modeleCommande);
     
     static String	titleTabEmprunt[] = {"Date de début", "Date de fin", "Produit", "Prix"};		//Les titres des colonnes
     static ZModeleEmprunt modeleEmprunt= new ZModeleEmprunt(listeEmprunt, titleTabEmprunt);    
@@ -256,7 +260,8 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	private static double montant() {
 		double montant = 0;
 		for(int i = 0; i < listeEmprunt.size(); i++) {
-			montant = montant + listeEmprunt.get(i).getPrix();
+			montant = montant + listeEmprunt.get(i).getPrix();;
+			//modeleCommande.fireTableDataChanged();
 		}
 		return montant;
 	}

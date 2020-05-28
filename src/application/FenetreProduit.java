@@ -38,12 +38,20 @@ public class FenetreProduit extends JFrame implements ActionListener {
 	static ArrayList<Produit> listeProduit = new ArrayList<Produit>();
 	static Produit JW = new DVD(12875, "John Wick", "DVD", 19.99, 3, 2, "Chad Stalhelski");
 	static Produit RC = new CD(78096, "Racine Carrée", "CD", 10, 2, 1, "2016");
+	static Produit BB = new DVD(56789, "Boule et Bill", "BD", 7.99, 4, 0, "Jean Roba");
+	static Produit HG = new CD(12587, "Histoire-Géographie 6ième", "Manuel Scolaire", 15, 6, 3, "Hachette");
+	static Produit Larousse = new DVD(23245, "Le Petit Larousse", "Dictionnaire", 10.95, 2, 2, "Français");
+	static Produit Cherub = new CD(65784, "Cherub - Tome 1", "Roman", 12.65, 8, 7, "Robert Muchamore");
     
 	static String	titleTabProduit[] = {"ID", "Nom", "Catégorie", "Prix", "En stock", "Loué"};	  //Les titres des colonnes
     static ZModeleProduit modeleProduit = new ZModeleProduit(listeProduit, titleTabProduit);    
     static JTable tabProduit = new JTable(modeleProduit);
     
 	static JButton btnValider = new JButton("Valider");	
+	
+	static String[] prod = new String[]{" ", "CD", "DVD", "Roman", "Dictionnaire", "Manuel Scolaire", "BD"};		
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	static JComboBox cboRechercherProduit = new JComboBox(prod);
 	
 	public FenetreProduit() {
 		
@@ -58,12 +66,11 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		JPanel topPanelProduit = new JPanel();
 		topPanelProduit.setBorder(new LineBorder(Color.BLACK, 3));
 		topPanelProduit.setBackground(Color.ORANGE);
-		panelProduit.add(topPanelProduit, BorderLayout.NORTH);
 		
 		JPanel leftPanelProduit = new JPanel();
 		leftPanelProduit.setBorder(new LineBorder(Color.BLACK, 3));
 		leftPanelProduit.setBackground(Color.MAGENTA);
-		panelProduit.add(leftPanelProduit, BorderLayout.WEST);
+		leftPanelProduit.setLayout(new BoxLayout(leftPanelProduit, BoxLayout.Y_AXIS));
 		
 		JLabel labelTitre = new JLabel("Produit");
 		topPanelProduit.add(labelTitre);
@@ -71,11 +78,28 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		JPanel gridLeftPanel = new JPanel();
 		gridLeftPanel.setLayout(new GridLayout(2, 1, 0, 10));		//Définition de la gestion des placements des boutons
 		
-		gridLeftPanel.add(btnAjouterProduit);							//Ajout des boutons à la gris des boutons
-		gridLeftPanel.add(btnRetirerProduit);
+		JPanel pnlBtnAjout = new JPanel();
+		pnlBtnAjout.add(btnAjouterProduit);
+		pnlBtnAjout.setBackground(Color.BLUE);
+		JPanel pnlBtnRetirer = new JPanel();
+		pnlBtnRetirer.add(btnRetirerProduit);
+		pnlBtnRetirer.setBackground(Color.CYAN);
+		
+		gridLeftPanel.add(pnlBtnAjout);							//Ajout des boutons à la gris des boutons
+		gridLeftPanel.add(pnlBtnRetirer);
 		leftPanelProduit.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
-	    
+		
+		JPanel panelCbo = new JPanel();
+		
+		cboRechercherProduit.setPreferredSize(new Dimension(200, 30));
+		panelCbo.add(cboRechercherProduit);
+		leftPanelProduit.add(panelCbo);
+		
+		panelProduit.add(topPanelProduit, BorderLayout.NORTH);
+		panelProduit.add(leftPanelProduit, BorderLayout.WEST);
 	    panelProduit.add(new JScrollPane(tabProduit));		//Pour pouvoir afficher les titres des colonnes
+	    
+	    trieProduit();
 	    
 		return panelProduit;
 		
@@ -232,6 +256,66 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		modeleProduit.fireTableDataChanged();
 	}
 	*/
+	
+	private static ZModeleProduit trieProduit() {
+
+		if(cboRechercherProduit.getSelectedItem().equals("CD")) {
+			for (int i = 0; i < listeProduit.size(); i ++)
+				if(!(listeProduit.get(i).getCategorie().equals("CD")))
+					listeProduit.remove(i);
+		}
+			
+		if(cboRechercherProduit.getSelectedItem().equals("DVD")) {
+			for (int i = 0; i < listeProduit.size(); i ++)
+				if(!(listeProduit.get(i).getCategorie().equals("DVD")))
+					listeProduit.remove(i);
+		}
+		
+		if(cboRechercherProduit.getSelectedItem().equals("Roman")) {
+			for (int i = 0; i < listeProduit.size(); i ++)
+				if(!(listeProduit.get(i).getCategorie().equals("Roman")))
+					listeProduit.remove(i);
+		}
+		
+		if(cboRechercherProduit.getSelectedItem().equals("Dictionnaire")) {
+			for (int i = 0; i < listeProduit.size(); i ++)
+				if(!(listeProduit.get(i).getCategorie().equals("Dictionnaire")))
+					listeProduit.remove(i);
+		}
+		
+		if(cboRechercherProduit.getSelectedItem().equals("Manuel Scolaire")) {
+			for (int i = 0; i < listeProduit.size(); i ++)
+				if(!(listeProduit.get(i).getCategorie().equals("Manuel Scolaire")))
+					listeProduit.remove(i);
+		}
+		
+		if(cboRechercherProduit.getSelectedItem().equals("BD")) {
+			for (int i = 0; i < listeProduit.size(); i ++)
+				if(!(listeProduit.get(i).getCategorie().equals("BD")))
+					listeProduit.remove(i);
+		}
+	
+		modeleProduit.fireTableDataChanged();
+		return modeleProduit = new ZModeleProduit(listeProduit, titleTabProduit);
+		
+			/*
+			
+				
+			if(cboRechercherProduit.getSelectedItem().equals("Roman"))
+				
+			if(cboRechercherProduit.getSelectedItem().equals("Dictionnaire"))
+				
+			if(cboRechercherProduit.getSelectedItem().equals("Manuel Scolaire"))
+				
+			if(cboRechercherProduit.getSelectedItem().equals("BD"))
+			
+		((ZModeleProduit)tabProduit.getModel()).addProduit(produit);	//Ajoute un Produit à la liste
+		Fenetre.checkBtn();
+		modeleProduit.fireTableDataChanged();				//Met à jour le tableau
+		
+		return ;
+		*/
+	}
 	
 	private static int nbAleatoire() {
 		int min = 10000, max = 99999;

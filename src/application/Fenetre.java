@@ -27,12 +27,17 @@ public class Fenetre extends JFrame implements ActionListener {
 		buildBarMenu();
 		FenetreClient.listeClient.add(FenetreClient.val);
 		FenetreClient.listeClient.add(FenetreClient.alexia);
-		FenetreCommande.listeCommande.add(FenetreCommande.commandeVal);
-		FenetreCommande.listeCommande.add(FenetreCommande.commandeAlexia);
 		FenetreProduit.listeProduit.add(FenetreProduit.JW);
 		FenetreProduit.listeProduit.add(FenetreProduit.RC);
+		FenetreProduit.listeProduit.add(FenetreProduit.BB);
+		FenetreProduit.listeProduit.add(FenetreProduit.HG);
+		FenetreProduit.listeProduit.add(FenetreProduit.Larousse);
+		FenetreProduit.listeProduit.add(FenetreProduit.Cherub);
 		FenetreCommande.listeEmprunt.add(FenetreCommande.empruntVal);
-		FenetreCommande.listeEmprunt.add(FenetreCommande.empruntVal1);
+		FenetreCommande.listeEmprunt.add(FenetreCommande.empruntAlexia);
+		FenetreCommande.listeCommande.add(FenetreCommande.commandeVal);
+		FenetreCommande.listeCommande.add(FenetreCommande.commandeAlexia);
+		
 		FenetreClient.btnAjouterClient();
 	    FenetreClient.btnRetirerClient();
 	    FenetreCommande.btnAjouterCommande();
