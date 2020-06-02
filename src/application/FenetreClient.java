@@ -42,6 +42,12 @@ public class FenetreClient extends JFrame implements ActionListener {
     
 	static JButton btnValider = new JButton("Valider");
 	
+	static BoiteDialogue dialogBoxClient = new BoiteDialogue(null, "Ajouter un client", false);
+	
+	static JTextField txtNom = new JTextField();					//Instanciation des champs de saisie
+	static JTextField txtPrenom = new JTextField();
+	static JCheckBox fidele = new JCheckBox("Fidèle", false);			//Instanciation de la case fidèle à cocher ou non
+	
 	public FenetreClient() {
 		
 	}
@@ -50,7 +56,6 @@ public class FenetreClient extends JFrame implements ActionListener {
 		
 		JPanel panelClient = new JPanel();
 		panelClient.setLayout(new BorderLayout());
-		panelClient.setBackground(Color.YELLOW);
 		
 		JPanel topPanelClient = new JPanel();
 		topPanelClient.setBorder(new LineBorder(Color.BLACK, 3));
@@ -58,8 +63,6 @@ public class FenetreClient extends JFrame implements ActionListener {
 		panelClient.add(topPanelClient, BorderLayout.NORTH);
 		
 		JPanel leftPanelClient = new JPanel();
-		leftPanelClient.setBorder(new LineBorder(Color.BLACK, 3));
-		leftPanelClient.setBackground(Color.MAGENTA);
 		leftPanelClient.setLayout(new FlowLayout(4, 4, 4));
 		panelClient.add(leftPanelClient, BorderLayout.WEST);
 		
@@ -79,7 +82,7 @@ public class FenetreClient extends JFrame implements ActionListener {
 		
 	}
 	
-	private static Component buildAjouterClientDialogue() {
+	public static Component buildAjouterClientDialogue() {
 		
 		JPanel panelDialogueClient = new JPanel();
 		panelDialogueClient.setLayout(new BoxLayout(panelDialogueClient, BoxLayout.Y_AXIS));
@@ -94,16 +97,13 @@ public class FenetreClient extends JFrame implements ActionListener {
 		panelNom.add(labelNom);
 		panelPrenom.add(labelPrenom);
 		
-		JTextField txtNom = new JTextField();					//Instanciation des champs de saisie
 		txtNom.setPreferredSize(new Dimension(150, 30));
 		panelNom.add(txtNom);
 		
-		JTextField txtPrenom = new JTextField();
 		txtPrenom.setPreferredSize(new Dimension(150, 30));
 		panelPrenom.add(txtPrenom);
 		
 		JPanel panelFidele = new JPanel();
-		JCheckBox fidele = new JCheckBox("Fidèle", false);			//Instanciation de la case fidèle à cocher ou non
 		panelFidele.add(fidele);
 		panelDialogueClient.add(panelFidele);
 		
@@ -119,8 +119,13 @@ public class FenetreClient extends JFrame implements ActionListener {
 				((ZModeleClient)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
 				Fenetre.checkBtn();
 				modeleClient.fireTableDataChanged();				//Met à jour le tableau
+				dialogBoxClient.setVisible(false);
 		      }
 		});
+		
+		dialogBoxClient.add(panelDialogueClient);
+		dialogBoxClient.setSize(300, 200);
+		dialogBoxClient.setVisible(false);
 		
 		return panelDialogueClient;
 	}
@@ -128,9 +133,9 @@ public class FenetreClient extends JFrame implements ActionListener {
 	public static void btnAjouterClient() {
 		btnAjouterClient.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un client qui ouvrira
 			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-				BoiteDialogue dialogBoxClient = new BoiteDialogue(null, "Ajouter un client", false);
-				dialogBoxClient.add(buildAjouterClientDialogue());
-				dialogBoxClient.setSize(300, 200);
+				txtNom.setText("");
+				txtPrenom.setText("");
+				fidele.setSelected(false);
 				dialogBoxClient.setVisible(true);
 			}
 		});

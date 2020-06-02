@@ -58,6 +58,9 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	static JButton btnAjouterEmprunt = new JButton("Ajouter un emprunt");
 	static JButton btnRetirerEmprunt = new JButton("Retirer un emprunt");
 	
+	static BoiteDialogue dialogBoxCommande = new BoiteDialogue(null, "Ajouter une commande", false);
+	
+	static JTextField txtDateCreation = new JTextField();
 	static JTextField txtDateFin = new JTextField();
 	
 	public FenetreCommande() {
@@ -68,7 +71,6 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		
 		JPanel panelCommande = new JPanel();
 		panelCommande.setLayout(new BorderLayout());
-		panelCommande.setBackground(Color.YELLOW);
 		
 		JPanel topPanelCommande = new JPanel();
 		topPanelCommande.setBorder(new LineBorder(Color.BLACK, 3));
@@ -76,8 +78,6 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		panelCommande.add(topPanelCommande, BorderLayout.NORTH);
 		
 		JPanel leftPanelCommande = new JPanel();
-		leftPanelCommande.setBorder(new LineBorder(Color.BLACK, 3));
-		leftPanelCommande.setBackground(Color.MAGENTA);
 		panelCommande.add(leftPanelCommande, BorderLayout.WEST);
 		
 		JLabel labelTitre = new JLabel("Commande");
@@ -98,7 +98,7 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		
 	}
 	
-	private static Component buildAjouterCommandeDialogue() {
+	public static Component buildAjouterCommandeDialogue() {
 		
 		JPanel panelDialogueCommande = new JPanel();
 		panelDialogueCommande.setLayout(new BoxLayout(panelDialogueCommande, BoxLayout.Y_AXIS));
@@ -118,14 +118,12 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		
 		JPanel panelDateCreation = new JPanel();
 		JLabel labelDateCreation = new JLabel("Rentrez la date de création :");
-		JTextField txtDateCreation = new JTextField();
 		txtDateCreation.setPreferredSize(new Dimension(150, 30));
 		panelDateCreation.add(labelDateCreation);
 		panelDateCreation.add(txtDateCreation);
 		
 		JPanel panelDateFin = new JPanel();
 		JLabel labelDateFin = new JLabel("Rentrez la date de fin :");
-		JTextField txtDateFin = new JTextField();
 		txtDateFin.setPreferredSize(new Dimension(150, 30));
 		panelDateFin.add(labelDateFin);
 		panelDateFin.add(txtDateFin);
@@ -144,8 +142,13 @@ public class FenetreCommande extends JFrame implements ActionListener {
 				((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute un client à la liste
 				Fenetre.checkBtn();
 				modeleCommande.fireTableDataChanged();				//Met à jour le tableau
+				dialogBoxCommande.setVisible(false);
 		      }
 		});
+		
+		dialogBoxCommande.add(panelDialogueCommande);
+        dialogBoxCommande.setSize(500, 200);
+        dialogBoxCommande.setVisible(false);
 		
 		return panelDialogueCommande;
 	}
@@ -224,10 +227,9 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	public static void btnAjouterCommande() {
 		btnAjouterCommande.addActionListener(new ActionListener() {				//Méthode du bouton ajouter une commande qui ouvrira
 			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-		        BoiteDialogue dialogBoxCommande = new BoiteDialogue(null, "Ajouter une commande", false);
-		        dialogBoxCommande.add(buildAjouterCommandeDialogue());
-		        dialogBoxCommande.setSize(500, 200);
-		        dialogBoxCommande.setVisible(true);
+				txtDateCreation.setText("");
+				txtDateFin.setText("");
+				dialogBoxCommande.setVisible(true);
 		      }
 		});
 	}

@@ -44,6 +44,10 @@ public class Fenetre extends JFrame implements ActionListener {
 		FenetreCommande.btnRetirerCommande();
 		FenetreProduit.btnAjouterProduit();
 		FenetreProduit.btnRetirerProduit();
+		
+		FenetreClient.buildAjouterClientDialogue();
+		FenetreCommande.buildAjouterCommandeDialogue();
+		FenetreProduit.buildAjouterProduitDialogue();
 	}
 		
 		private void buildWindow() {
@@ -74,19 +78,19 @@ public class Fenetre extends JFrame implements ActionListener {
 		
 		private void buildBarMenu() {
 		
-		this.barreMenu.add(client);					//On ajoute les différents items de menu dans la barre de menu
-		this.barreMenu.add(commande);
-		this.barreMenu.add(produit);		
+			this.barreMenu.add(client);					//On ajoute les différents items de menu dans la barre de menu
+			this.barreMenu.add(commande);
+			this.barreMenu.add(produit);		
 		
-		this.client.add(voirClient);
-		client.addSeparator();
-		this.client.add(quitter);
+			this.client.add(voirClient);
+			client.addSeparator();
+			this.client.add(quitter);
 		
-		this.commande.add(voirCommande);
+			this.commande.add(voirCommande);
 		
-		this.produit.add(voirProduit);
-		this.setJMenuBar(barreMenu);
-		this.setVisible(true);						
+			this.produit.add(voirProduit);
+			this.setJMenuBar(barreMenu);
+			this.setVisible(true);						
 		
 		}
 		

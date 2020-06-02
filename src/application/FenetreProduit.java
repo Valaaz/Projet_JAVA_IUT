@@ -10,11 +10,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -52,6 +54,20 @@ public class FenetreProduit extends JFrame implements ActionListener {
 	static String[] prod = new String[]{" ", "CD", "DVD", "Roman", "Dictionnaire", "Manuel Scolaire", "BD"};		
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	static JComboBox cboRechercherProduit = new JComboBox(prod);
+	
+	static JTextField txtNom = new JTextField();
+	static JTextField txtPrix = new JTextField();
+	static JTextField txtQuantite = new JTextField();
+	static JTextField txtChangeable = new JTextField();
+	
+	static BoiteDialogue dialogBoxProduit = new BoiteDialogue(null, "Ajouter un Produit", false);
+	
+	static JButton validerTri = new JButton("Valider");
+	
+	static ButtonGroup groupe = new ButtonGroup();
+	static JRadioButton tous = new JRadioButton("Tous");
+	static JRadioButton stockDispo = new JRadioButton("Stock disponible");
+	static JRadioButton stockIndispo = new JRadioButton("Stock indisponible");
 	
 	public FenetreProduit() {
 		
@@ -93,19 +109,32 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		
 		cboRechercherProduit.setPreferredSize(new Dimension(200, 30));
 		panelCbo.add(cboRechercherProduit);
+		panelCbo.add(validerTri);
 		leftPanelProduit.add(panelCbo);
+		
+		JPanel panelStock = new JPanel();
+		panelStock.setBackground(Color.LIGHT_GRAY);
+		groupe.add(tous);			//Ajout des radio boutons au groupe (pour que quand on clique sur un radiobutton cela déselectionne l'autre sélectionné
+		groupe.add(stockDispo);
+		groupe.add(stockIndispo);
+		panelStock.add(tous);
+		panelStock.add(stockDispo);
+		panelStock.add(stockIndispo);
+		tous.setSelected(true);		//Tous les produits disponibles et indisponibles sélectionné au démarrage de l'application
+		leftPanelProduit.add(panelStock);
 		
 		panelProduit.add(topPanelProduit, BorderLayout.NORTH);
 		panelProduit.add(leftPanelProduit, BorderLayout.WEST);
 	    panelProduit.add(new JScrollPane(tabProduit));		//Pour pouvoir afficher les titres des colonnes
 	    
-	    trieProduit();
+	    //trieProduit();
+	    //stock();
 	    
 		return panelProduit;
 		
 	}
 	
-	private static Component buildAjouterProduitDialogue() {
+	public static Component buildAjouterProduitDialogue() {
 		
 		JPanel panelDialogueProduit = new JPanel();
 		panelDialogueProduit.setLayout(new BoxLayout(panelDialogueProduit, BoxLayout.Y_AXIS));
@@ -113,7 +142,7 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		JPanel panelNom = new JPanel();
 		JLabel labelNom = new JLabel("Nom :");
 		panelNom.add(labelNom);
-		JTextField txtNom = new JTextField();
+		
 		txtNom.setPreferredSize(new Dimension(150, 30));
 		panelNom.add(txtNom);
 		
@@ -129,14 +158,14 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		
 		JPanel panelPrix = new JPanel();
 		JLabel labelPrix = new JLabel("Prix :");
-		JTextField txtPrix = new JTextField();
+		
 		txtPrix.setPreferredSize(new Dimension(150, 30));
 		panelPrix.add(labelPrix);
 		panelPrix.add(txtPrix);
 		
 		JPanel panelQuantite = new JPanel();
 		JLabel labelQuantite = new JLabel("Quantite :");
-		JTextField txtQuantite = new JTextField();
+		
 		txtQuantite.setPreferredSize(new Dimension(150, 30));
 		panelQuantite.add(labelQuantite);
 		panelQuantite.add(txtQuantite);
@@ -147,7 +176,7 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		JPanel panelChangeable = new JPanel();
 		JLabel labelChangeable = new JLabel();
 		panelChangeable.add(labelChangeable);
-		JTextField txtChangeable = new JTextField();
+		
 		txtChangeable.setPreferredSize(new Dimension(150, 30));
 		panelChangeable.add(txtChangeable);
 		panelChangeable.setEnabled(true);		//On désactive le panel changeable
@@ -217,8 +246,14 @@ public class FenetreProduit extends JFrame implements ActionListener {
 				((ZModeleProduit)tabProduit.getModel()).addProduit(produit);	//Ajoute un Produit à la liste
 				Fenetre.checkBtn();
 				modeleProduit.fireTableDataChanged();				//Met à jour le tableau
+				dialogBoxProduit.setVisible(false);
+				cboProduit.setSelectedIndex(0);
 		      }
 		});
+		
+		dialogBoxProduit.add(panelDialogueProduit);
+		dialogBoxProduit.setSize(500, 300);
+		dialogBoxProduit.setVisible(false);
 		
 		return panelDialogueProduit;
 	}
@@ -226,10 +261,11 @@ public class FenetreProduit extends JFrame implements ActionListener {
 	public static void btnAjouterProduit() {
 		btnAjouterProduit.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un Produit qui ouvrira
 			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-				BoiteDialogue dialogBoxProduit = new BoiteDialogue(null, "Ajouter un Produit", false);
-				dialogBoxProduit.add(buildAjouterProduitDialogue());
-				dialogBoxProduit.setSize(500, 300);
-				dialogBoxProduit.setVisible(true);
+				txtNom.setText("");
+				txtPrix.setText("");
+				txtQuantite.setText("");
+				txtChangeable.setText("");
+				dialogBoxProduit.setVisible(true);				
 			}
 		});
 	}
@@ -315,6 +351,29 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		
 		return ;
 		*/
+	}
+	
+	public static void stock() {
+		ArrayList<Produit> produitTemp = new ArrayList<Produit>();
+		if(tous.isSelected()) {
+			for(int i = 0; i < listeProduit.size(); i++) {
+				produitTemp.add(listeProduit.get(i));
+			}
+		}
+		else if(stockDispo.isSelected()) {
+			for(int i = 0; i < listeProduit.size(); i++) {
+				if(listeProduit.get(i).getStock() > 0)
+					produitTemp.add(listeProduit.get(i));
+			}
+		}
+		else if(stockIndispo.isSelected()) {
+			for(int i = 0; i < listeProduit.size(); i++) {
+				if(listeProduit.get(i).getStock() == 0)
+					produitTemp.add(listeProduit.get(i));
+			}
+		}
+		
+		ZModeleProduit modeleTemp = new ZModeleProduit(produitTemp, titleTabProduit);
 	}
 	
 	private static int nbAleatoire() {
