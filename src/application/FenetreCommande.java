@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import produit.Client;
 import produit.Commande;
 import produit.Emprunt;
 import zmodele.ZModeleCommande;
@@ -62,6 +64,8 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	
 	static JTextField txtDateCreation = new JTextField();
 	static JTextField txtDateFin = new JTextField();
+	
+	static HashMap<String, ArrayList<Emprunt>> mapCommande = new HashMap<String, ArrayList<Emprunt>>();
 	
 	public FenetreCommande() {
 		

@@ -77,7 +77,7 @@ public class FenetreClient extends JFrame implements ActionListener {
 		leftPanelClient.add(gridLeftPanel);							//Ajout de la gris des boutons au panel de gauche
 	    
 	    panelClient.add(new JScrollPane(tabClient));		//Pour pouvoir afficher les titres des colonnes
-	    	    
+	    
 		return panelClient;
 		
 	}
@@ -159,8 +159,7 @@ public class FenetreClient extends JFrame implements ActionListener {
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		//TODO
 	}
 	
 }
