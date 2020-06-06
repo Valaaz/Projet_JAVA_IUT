@@ -113,13 +113,19 @@ public class FenetreClient extends JFrame implements ActionListener {
 		
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Client client = new Client(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), false);
-				if(fidele.isSelected())		//Vérifie si la checkbox est cochée
-					client = new ClientFidele(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), true);
-				((ZModeleClient)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
-				Fenetre.checkBtn();
-				modeleClient.fireTableDataChanged();				//Met à jour le tableau
-				dialogBoxClient.setVisible(false);
+				if(txtNom.getText().equals("") || txtPrenom.getText().equals(""))
+				{
+					System.out.println("Veuillez rentrez un nom et un prenom");
+				}
+				else {
+					Client client = new Client(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), false);
+					if(fidele.isSelected())		//Vérifie si la checkbox est cochée
+						client = new ClientFidele(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), true);
+					((ZModeleClient)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
+					Fenetre.checkBtn();
+					modeleClient.fireTableDataChanged();				//Met à jour le tableau
+					dialogBoxClient.setVisible(false);
+				}
 		      }
 		});
 		

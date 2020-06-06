@@ -2,7 +2,7 @@ package produit;
 
 public class Dictionnaire extends Document {
 
-	private String langue;
+	public String langue;
 
 	public Dictionnaire(int id, String titre, double tarifJour, String langue) {
 		super(id, titre, tarifJour);

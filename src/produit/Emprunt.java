@@ -2,11 +2,11 @@ package produit;
 
 public class Emprunt {
 
-	private String dateDebut;
-	private String dateFin;
-	private Produit p;
-	private String produit;
-	private Double prix;
+	public String dateDebut;
+	public String dateFin;
+	public Produit p;
+	public String produit;
+	public Double prix;
 
 	public Emprunt(String dateDebut, String dateFin, Produit p) {
 		super();

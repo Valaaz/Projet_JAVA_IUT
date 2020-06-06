@@ -222,34 +222,45 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Produit produit = null;
+				if(txtNom.getText().equals("") || txtPrix.getText().equals("") || txtQuantite.getText().equals("") || txtChangeable.getText().equals("")) {
+					System.out.println("Veuillez remplir les champs vides");				}
+				else {
+					if(Double.parseDouble(txtPrix.getText()) < 0 || Integer.parseInt(txtQuantite.getText()) < 1) {
+						System.out.println("Le prix ne peut pas être inférieur à 0 et la quantité inférieur à 1");
+					}
+					else {
+						Produit produit = null;
 						/*new CD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
 						Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2020");	*/	//parse.. : pour convertir le texte (String) en double ou int
-				tabProduit.setModel(modeleProduit);
-				if(cboProduit.getSelectedItem().equals("CD"))
-					produit = new CD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
-							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
-				if(cboProduit.getSelectedItem().equals("DVD"))
-					produit = new DVD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
-							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
-				if(cboProduit.getSelectedItem().equals("Roman"))
-					produit = new Roman(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
-							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
-				if(cboProduit.getSelectedItem().equals("Dictionnaire"))
-					produit = new Dictionnaire(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
-							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
-				if(cboProduit.getSelectedItem().equals("Manuel Scolaire"))
-					produit = new ManuelScolaire(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
-							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
-				if(cboProduit.getSelectedItem().equals("BD"))
-					produit = new BD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
-							Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						tabProduit.setModel(modeleProduit);
+						if(cboProduit.getSelectedItem().equals("CD"))
+							produit = new CD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+									Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						if(cboProduit.getSelectedItem().equals("DVD"))
+							produit = new DVD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+									Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						if(cboProduit.getSelectedItem().equals("Roman"))
+							produit = new Roman(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+									Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						if(cboProduit.getSelectedItem().equals("Dictionnaire"))
+							produit = new Dictionnaire(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+									Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						if(cboProduit.getSelectedItem().equals("Manuel Scolaire"))
+							produit = new ManuelScolaire(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+									Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						if(cboProduit.getSelectedItem().equals("BD"))
+							produit = new BD(nbAleatoire(), txtNom.getText(), cboProduit.getSelectedItem(),
+									Double.parseDouble(txtPrix.getText()), Integer.parseInt(txtQuantite.getText()), 0, "2021");
+						
+						((ZModeleProduit)tabProduit.getModel()).addProduit(produit);	//Ajoute un Produit à la liste
+						Fenetre.checkBtn();
+						modeleProduit.fireTableDataChanged();				//Met à jour le tableau
+						dialogBoxProduit.setVisible(false);
+						cboProduit.setSelectedIndex(0);
+					}
+					
 				
-				((ZModeleProduit)tabProduit.getModel()).addProduit(produit);	//Ajoute un Produit à la liste
-				Fenetre.checkBtn();
-				modeleProduit.fireTableDataChanged();				//Met à jour le tableau
-				dialogBoxProduit.setVisible(false);
-				cboProduit.setSelectedIndex(0);
+				}
 		      }
 		});
 		
@@ -424,8 +435,6 @@ public class FenetreProduit extends JFrame implements ActionListener {
 		});
 		
 	}
-	
-	
 	
 	private static int nbAleatoire() {
 		int min = 10000, max = 99999;

@@ -2,7 +2,7 @@ package produit;
 
 public class CD extends SupportNumerique {
 
-	private int annee;
+	public int annee;
 	
 	public CD() {
 		super();

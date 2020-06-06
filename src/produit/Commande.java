@@ -1,17 +1,15 @@
 package produit;
 
-import java.util.ArrayList;
-
 public class Commande {
 
-	private int id;
+	public int id;
 	protected String dateCreation;
 	protected double reduction = 0;
 	protected String client;
 	protected String dateFin;
 	protected double montant = 0;
 	
-	ArrayList<Emprunt> Commande = new ArrayList<Emprunt>();
+	//ArrayList<Emprunt> Commande = new ArrayList<Emprunt>();
 	
 	public Commande(int id, String client, String dateCreation, String dateFin, double montant) {
 		super();
@@ -69,7 +67,7 @@ public class Commande {
 	public void setMontant(double montant) {
 		this.montant = montant;
 	}
-
+/*
 	public ArrayList<Emprunt> getCommande() {
 		return Commande;
 	}
@@ -90,7 +88,7 @@ public class Commande {
 		for (int i = 0; i < Commande.size(); i++)
 			System.out.println(Commande.get(i));
 	}
-	
+	*/
 	public void setFidelite(Client c) {
 		if (c instanceof ClientFidele)
 			reduction = 10;

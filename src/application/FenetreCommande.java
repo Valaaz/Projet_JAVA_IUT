@@ -23,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import produit.Client;
 import produit.Commande;
 import produit.Emprunt;
 import zmodele.ZModeleCommande;
@@ -142,11 +141,16 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		
 		btnValiderCommande.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Commande commande = new Commande(nbAleatoire(), (String)cboClient.getSelectedItem(), txtDateCreation.getText(), txtDateFin.getText(), montant());
-				((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute un client à la liste
-				Fenetre.checkBtn();
-				modeleCommande.fireTableDataChanged();				//Met à jour le tableau
-				dialogBoxCommande.setVisible(false);
+				if(txtDateCreation.getText().equals("") || txtDateFin.getText().equals("")) {
+					System.out.println("Veuillez remplir les champs vides");
+				}
+				else {
+					Commande commande = new Commande(nbAleatoire(), (String)cboClient.getSelectedItem(), txtDateCreation.getText(), txtDateFin.getText(), montant());
+					((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute un client à la liste
+					Fenetre.checkBtn();
+					modeleCommande.fireTableDataChanged();				//Met à jour le tableau
+					dialogBoxCommande.setVisible(false);
+				}
 		      }
 		});
 		

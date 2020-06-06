@@ -2,7 +2,7 @@ package produit;
 
 public class DVD extends SupportNumerique {
 
-	private String realisateur;
+	public String realisateur;
 
 	public DVD(int id, String titre, double tarifJour, String realisateur) {
 		super(id, titre, tarifJour);
