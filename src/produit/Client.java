@@ -6,8 +6,7 @@ public class Client {
 	public String nom;
 	protected String prenom;
 	protected boolean fidele;
-	
-	//ArrayList<Commande> CommandeClient = new ArrayList<Commande>();
+
 	
 	public Client(int id, String nom, String prenom, boolean fidele) {
 		super();
@@ -49,20 +48,6 @@ public class Client {
 		this.fidele = fidele;
 	}
 	
-	/*
-	public void ajouterCommande(Commande c) {
-		CommandeClient.add(c);
-	}
-	
-	public void enleverCommande(Commande c) {
-		CommandeClient.remove(c);
-	}
-	
-	public void affCommandeClient() {
-		for (int i = 0; i < CommandeClient.size(); i++)
-			System.out.println(CommandeClient.get(i));
-	}
-	*/
 	
 	@Override
 	public String toString() {

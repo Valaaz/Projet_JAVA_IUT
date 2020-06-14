@@ -9,8 +9,6 @@ public class Commande {
 	protected String dateFin;
 	protected double montant = 0;
 	
-	//ArrayList<Emprunt> Commande = new ArrayList<Emprunt>();
-	
 	public Commande(int id, String client, String dateCreation, String dateFin, double montant) {
 		super();
 		this.id = id;
@@ -67,28 +65,7 @@ public class Commande {
 	public void setMontant(double montant) {
 		this.montant = montant;
 	}
-/*
-	public ArrayList<Emprunt> getCommande() {
-		return Commande;
-	}
 
-	public void setCommande(ArrayList<Emprunt> commande) {
-		Commande = commande;
-	}
-
-	public void ajouterEmprunt(Emprunt e) {
-		Commande.add(e);
-	}
-	
-	public void enleverEmprunt(Emprunt e) {
-		Commande.remove(e);
-	}
-	
-	public void affCommande() {
-		for (int i = 0; i < Commande.size(); i++)
-			System.out.println(Commande.get(i));
-	}
-	*/
 	public void setFidelite(Client c) {
 		if (c instanceof ClientFidele)
 			reduction = 10;
