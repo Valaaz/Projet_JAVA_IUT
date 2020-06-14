@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -36,9 +35,6 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	
 	static ArrayList<Emprunt> listeEmprunt = new ArrayList<Emprunt>();
 	
-	//static ArrayList<Emprunt> listeEmpruntVal = new ArrayList<Emprunt>();
-	//static ArrayList<Emprunt> listeEmpruntAlexia = new ArrayList<Emprunt>();
-	
 	static ArrayList<Commande> listeCommande = new ArrayList<Commande>();
 	static Commande commandeVal = new Commande(251164741, FenetreClient.val.getNom().concat(" " + FenetreClient.val.getPrenom()), "25/04/2020", "30/04/2020", montant());
 	static Commande commandeAlexia = new Commande(124434414, FenetreClient.alexia.getNom().concat(" " + FenetreClient.alexia.getPrenom()), "14/05/2020", "26/06/2020", 40.67);
@@ -63,8 +59,7 @@ public class FenetreCommande extends JFrame implements ActionListener {
 	
 	static JTextField txtDateCreation = new JTextField();
 	static JTextField txtDateFin = new JTextField();
-	
-	static HashMap<String, ArrayList<Emprunt>> mapCommande = new HashMap<String, ArrayList<Emprunt>>();
+	static JPanel pnlErreur = new JPanel();
 	
 	public FenetreCommande() {
 		
@@ -131,25 +126,32 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		panelDateFin.add(labelDateFin);
 		panelDateFin.add(txtDateFin);
 		
+		JLabel lblErreur = new JLabel("Veuillez remplir les champs vides");
+		lblErreur.setForeground(Color.RED);
+		pnlErreur.add(lblErreur);
+		pnlErreur.setVisible(false);
+		
 		JPanel panelValider = new JPanel();
 		panelValider.add(btnValiderCommande);
 		
 		panelDialogueCommande.add(panelClient);
 		panelDialogueCommande.add(panelDateCreation);
 		panelDialogueCommande.add(panelDateFin);
+		panelDialogueCommande.add(pnlErreur);
 		panelDialogueCommande.add(panelValider);
 		
 		btnValiderCommande.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtDateCreation.getText().equals("") || txtDateFin.getText().equals("")) {
-					System.out.println("Veuillez remplir les champs vides");
+				if(txtDateCreation.getText().trim().equals("") || txtDateFin.getText().trim().equals("")) {
+					pnlErreur.setVisible(true);
 				}
 				else {
-					Commande commande = new Commande(nbAleatoire(), (String)cboClient.getSelectedItem(), txtDateCreation.getText(), txtDateFin.getText(), montant());
-					((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute un client à la liste
+					Commande commande = new Commande(nbAleatoire(), (String)cboClient.getSelectedItem(), txtDateCreation.getText().trim(), txtDateFin.getText().trim(), montant());
+					((ZModeleCommande)tabCommande.getModel()).addCommande(commande);	//Ajoute une commande à la liste
 					Fenetre.checkBtn();
 					modeleCommande.fireTableDataChanged();				//Met à jour le tableau
 					dialogBoxCommande.setVisible(false);
+					pnlErreur.setVisible(false);
 				}
 		      }
 		});
@@ -168,8 +170,8 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		panelDialogueEmprunt.setBackground(Color.DARK_GRAY);
 		
 		JPanel panelEmprunt = new JPanel();
-		panelEmprunt.setBackground(Color.DARK_GRAY);
-		panelEmprunt.add(new JScrollPane(tabEmprunt));
+		panelEmprunt.setBackground(Color.DARK_GRAY);		
+		panelEmprunt.add(new JScrollPane(tabEmprunt));		
 		
 		JPanel valider = new JPanel();
 		valider.setBackground(Color.DARK_GRAY);
@@ -208,10 +210,9 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		btnAjouterEmprunt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Emprunt emprunt = new Emprunt("testd1", txtDateFin.getText(), (String)cboEmprunt.getSelectedItem(), listeEmprunt.get(cboEmprunt.getSelectedIndex()).getPrix());
-				((ZModeleEmprunt)tabEmprunt.getModel()).addEmprunt(emprunt);	//Ajoute un client à la liste
+				((ZModeleEmprunt)tabEmprunt.getModel()).addEmprunt(emprunt);	//Ajoute un emprunt à la liste
 				Fenetre.checkBtn();
-				modeleEmprunt.fireTableDataChanged();
-				
+				modeleEmprunt.fireTableDataChanged();				
 			}
 		});
 		
@@ -237,6 +238,7 @@ public class FenetreCommande extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
 				txtDateCreation.setText("");
 				txtDateFin.setText("");
+				pnlErreur.setVisible(false);
 				dialogBoxCommande.setVisible(true);
 		      }
 		});
@@ -262,6 +264,7 @@ public class FenetreCommande extends JFrame implements ActionListener {
 			      dialogBoxEmprunt.add(buildAjouterEmpruntDialogue());		//On ajoute la méthode qui crée et place les composants dans la fenêtre
 			      dialogBoxEmprunt.setSize(900, 600);
 			      dialogBoxEmprunt.setVisible(true);
+			      
 			    }
 			  }
 		});
@@ -284,7 +287,6 @@ public class FenetreCommande extends JFrame implements ActionListener {
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

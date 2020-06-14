@@ -18,13 +18,11 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JMenuItem voirClient = new JMenuItem("Voir les clients");
 	private JMenuItem quitter = new JMenuItem("Quitter");
 	private JMenuItem voirCommande = new JMenuItem("Voir les commandes");
-	private JMenuItem voirProduit = new JMenuItem("Voir les produits");
+	private JMenuItem voirProduit = new JMenuItem("Voir les produits");	
 	
 	public Fenetre() {
 		
 		super();
-		buildWindow();				//Appelle des fonctions pour construire l'application
-		buildBarMenu();
 		FenetreClient.listeClient.add(FenetreClient.val);
 		FenetreClient.listeClient.add(FenetreClient.alexia);
 		FenetreProduit.listeProduit.add(FenetreProduit.JW);
@@ -48,23 +46,24 @@ public class Fenetre extends JFrame implements ActionListener {
 		FenetreClient.buildAjouterClientDialogue();
 		FenetreCommande.buildAjouterCommandeDialogue();
 		FenetreProduit.buildAjouterProduitDialogue();
+		
 	}
 		
-		private void buildWindow() {
+		public void buildWindow() {
 		
-		this.setTitle("Netplix");						//Titre de la fenetre
-		this.setSize(1080, 720);						//Initialisation de la taille de la fenetre
-		this.setLocationRelativeTo(null);           	//Placement de la fenetre au centre  
-		this.setResizable(true);						//Autorise le redimensionnement de la fenetre
-		this.setAlwaysOnTop(false);						//Empeche la fenetre de toujours rester au premier plan
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);	//Ferme le programme quand on appuie sur la croix rouge
-		this.setVisible(true);
-		setContentPane(buildContentPane());				//On indique quel est le ContentPane (là où l'on placera les composants)
-		initBtnMenuBar();
+			this.setTitle("Netplix");						//Titre de la fenetre
+			this.setSize(1080, 720);						//Initialisation de la taille de la fenetre
+			this.setLocationRelativeTo(null);           	//Placement de la fenetre au centre  
+			this.setResizable(true);						//Autorise le redimensionnement de la fenetre
+			this.setAlwaysOnTop(false);						//Empeche la fenetre de toujours rester au premier plan
+			this.setDefaultCloseOperation(EXIT_ON_CLOSE);	//Ferme le programme quand on appuie sur la croix rouge
+			this.setVisible(true);
+			setContentPane(buildContentPane());				//On indique quel est le ContentPane (là où l'on placera les composants)
+
 		
 		}
 		
-		private JPanel buildContentPane() {
+		public JPanel buildContentPane() {
 			
 			JPanel panel = new JPanel();
 			panel.setLayout(new FlowLayout(FlowLayout.CENTER, 340, 300));
@@ -76,7 +75,7 @@ public class Fenetre extends JFrame implements ActionListener {
 			return panel;
 		}
 		
-		private void buildBarMenu() {
+		public void buildBarMenu() {
 		
 			this.barreMenu.add(client);					//On ajoute les différents items de menu dans la barre de menu
 			this.barreMenu.add(commande);
@@ -95,7 +94,7 @@ public class Fenetre extends JFrame implements ActionListener {
 		}
 		
 		//Méthode qui initialise le rôle de chaque boutons de la barre de menu
-		private void initBtnMenuBar() {
+		public void initBtnMenuBar() {
 			
 			btnVoirClient();
 			btnVoirCommande();

@@ -27,6 +27,6 @@ public class CD extends SupportNumerique {
 
 	@Override
 	public String toString() {
-		return "CD [id=" + id + ", titre=" + titre + ", tarifJour=" + tarifJour + " , annee=" + annee + "]";
+		return "CD [id=" + id + ", titre=" + titre + ", categorie=" + categorie + ", prix=" + tarifJour + ", stock=" + stock + ", loue=" + loue + ", annee=" + annee + "]";
 	}	
 }

@@ -47,6 +47,7 @@ public class FenetreClient extends JFrame implements ActionListener {
 	static JTextField txtNom = new JTextField();					//Instanciation des champs de saisie
 	static JTextField txtPrenom = new JTextField();
 	static JCheckBox fidele = new JCheckBox("Fidèle", false);			//Instanciation de la case fidèle à cocher ou non
+	static JPanel pnlErreur = new JPanel();
 	
 	public FenetreClient() {
 		
@@ -107,24 +108,30 @@ public class FenetreClient extends JFrame implements ActionListener {
 		panelFidele.add(fidele);
 		panelDialogueClient.add(panelFidele);
 		
+		JLabel lblErreur = new JLabel("Veuillez remplir les champs vides");
+		lblErreur.setForeground(Color.RED);
+		pnlErreur.add(lblErreur);
+		pnlErreur.setVisible(false);
+		panelDialogueClient.add(pnlErreur); //Ajout du panel qui affiche le message d'erreur (invisible à l'ouverture de la boite de dialogue)
+		
 		JPanel panelValider = new JPanel();
 		panelValider.add(btnValider);
 		panelDialogueClient.add(panelValider);
 		
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtNom.getText().equals("") || txtPrenom.getText().equals(""))
-				{
-					System.out.println("Veuillez rentrez un nom et un prenom");
+				if(txtNom.getText().trim().equals("") || txtPrenom.getText().trim().equals("")) {
+					pnlErreur.setVisible(true);
 				}
 				else {
-					Client client = new Client(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), false);
+					Client client = new Client(nbAleatoire(), txtNom.getText().trim(), txtPrenom.getText().trim(), false);
 					if(fidele.isSelected())		//Vérifie si la checkbox est cochée
-						client = new ClientFidele(nbAleatoire(), txtNom.getText(), txtPrenom.getText(), true);
+						client = new ClientFidele(nbAleatoire(), txtNom.getText().trim(), txtPrenom.getText().trim(), true);
 					((ZModeleClient)tabClient.getModel()).addClient(client);	//Ajoute un client à la liste
 					Fenetre.checkBtn();
 					modeleClient.fireTableDataChanged();				//Met à jour le tableau
 					dialogBoxClient.setVisible(false);
+					pnlErreur.setVisible(false);					
 				}
 		      }
 		});
@@ -139,9 +146,10 @@ public class FenetreClient extends JFrame implements ActionListener {
 	public static void btnAjouterClient() {
 		btnAjouterClient.addActionListener(new ActionListener() {				//Méthode du bouton ajouter un client qui ouvrira
 			public void actionPerformed(ActionEvent arg0) {						//une boite de dialogue pour la saisie des informations
-				txtNom.setText("");
+				txtNom.setText("");		//On vide les champs de texte
 				txtPrenom.setText("");
-				fidele.setSelected(false);
+				fidele.setSelected(false);	//On déselectionne la case à cocher
+				pnlErreur.setVisible(false);	//On rend invisible le panel d'erreur pour si l'utilisateur à fait afficher le message d'erreur mais qu'il clique sur la croix au lieu du bouton valider
 				dialogBoxClient.setVisible(true);
 			}
 		});
